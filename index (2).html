@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Explorer PWA - สุปรียา2</title>
+  
+  <!-- Link PWA Manifest -->
+  <link rel="manifest" href="manifest_สุปรียา2.json">
+  <meta name="theme-color" content="#0d1117">
+
+  <!-- Bootstrap 5 & Font -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: #161b22;
+      --text-color: #f0f6fc;
+      --text-muted: #8b949e;
+      --border-color: #30363d;
+      --accent-color: #58a6ff;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Prompt', sans-serif;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    .card-custom {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .text-highlight {
+      color: var(--accent-color);
+    }
+
+    .btn-space {
+      background-color: #238636;
+      color: #ffffff;
+      border: none;
+      font-weight: 600;
+    }
+
+    .btn-space:hover {
+      background-color: #2ea043;
+      color: #ffffff;
+    }
+
+    .option-btn {
+      text-align: left;
+      background-color: #21262d;
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      margin-bottom: 10px;
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover {
+      background-color: #30363d;
+      color: #ffffff;
+      border-color: var(--accent-color);
+    }
+
+    .explanation-box {
+      background-color: #21262d;
+      border-left: 4px solid var(--accent-color);
+      padding: 12px 16px;
+      margin-top: 8px;
+      border-radius: 0 8px 8px 0;
+    }
+  </style>
+</head>
+<body class="p-3 p-md-5">
+
+  <div class="container" style="max-width: 800px;">
+    
+    <!-- Header -->
+    <div class="text-center mb-4">
+      <span class="badge bg-primary mb-2">PWA Science Game</span>
+      <h1 class="fw-bold text-highlight">🚀 สำรวจอวกาศพิชิตจักรวาล</h1>
+      <p class="text-secondary">พัฒนาโดย: สุปรียา2</p>
+    </div>
+
+    <!-- Section 1: ความรู้อวกาศ -->
+    <div id="learning-section" class="card card-custom p-4 mb-4">
+      <h3 class="fw-bold text-warning mb-3">📖 คลังความรู้ก่อนท่องอวกาศ</h3>
+      <div class="mb-3" style="line-height: 1.8;">
+        <p><strong>1. ระบบสุริยะ (Solar System):</strong> ประกอบด้วยดวงอาทิตย์เป็นศูนย์กลาง มีดาวเคราะห์ 8 ดวง โคจรรอบๆ โดยแบ่งเป็นดาวเคราะห์หิน (พุธ, ศุกร์, โลก, อังคาร) และดาวเคราะห์แก๊ส (พฤหัสบดี, เสาร์, ยูเรนัส, เนปจูน)</p>
+        <p><strong>2. ดาวพุธ & ดาวศุกร์:</strong> ดาวพุธอยู่ใกล้ดวงอาทิตย์ที่สุดแต่ไม่ใช่ดาวที่ร้อนที่สุด ดาวศุกร์ต่างหากที่ร้อนที่สุดเพราะมีชั้นบรรยากาศหนาแน่นด้วยคาร์บอนไดออกไซด์ เกิดภาวะเรือนกระจกอย่างรุนแรง</p>
+        <p><strong>3. หลุมดำ (Black Hole):</strong> บริเวณในอวกาศที่มีแรงโน้มถ่วงสูงมาก แม้แต่แสงก็ไม่สามารถเล็ดลอดออกมาได้</p>
+        <p><strong>4. ปีแสง (Light-year):</strong> คือหน่วยวัด "ระยะทาง" ที่แสงเดินทางในเวลา 1 ปี ไม่ใช่หน่วยวัดเวลา</p>
+        <p><strong>5. ดาวนิวตรอน:</strong> ซากที่เหลือจากซูเปอร์โนวาที่มีความหนาแน่นสูงมาก ช้อนชาเดียวอาจมีน้ำหนักเท่ากับภูเขาทั้งลูก</p>
+      </div>
+      <button class="btn btn-space btn-lg w-100 mt-2" onclick="startQuiz()">เริ่มทำแบบทดสอบวัดความรู้ 🎮</button>
+    </div>
+
+    <!-- Section 2: เกมควิซ -->
+    <div id="quiz-section" class="card card-custom p-4 mb-4 d-none">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span id="question-number" class="badge bg-info fs-6">ข้อที่ 1/15</span>
+        <span id="score-count" class="text-warning fw-bold">คะแนน: 0</span>
+      </div>
+
+      <h4 id="question-text" class="fw-bold mb-4">คำถามกำลังโหลด...</h4>
+      <div id="options-container" class="d-grid gap-2 mb-3"></div>
+    </div>
+
+    <!-- Section 3: สรุปผล & เฉลยอย่างละเอียด -->
+    <div id="result-section" class="card card-custom p-4 mb-4 d-none">
+      <h3 class="fw-bold text-success text-center mb-2">🎉 สรุปผลการทดสอบ</h3>
+      <h2 id="final-score" class="text-center text-warning fw-bold display-4 mb-4">0 / 15</h2>
+
+      <h4 class="fw-bold text-highlight mb-3">📝 เฉลยคำตอบและคำอธิบายโดยละเอียด:</h4>
+      <div id="review-container" class="mb-4"></div>
+
+      <button class="btn btn-primary w-100 py-2 mb-2" onclick="startQuiz()">🔄 เล่นใหม่อีกครั้ง (สุ่มคำถามใหม่)</button>
+    </div>
+
+    <!-- Section 4: แบบฟอร์มเพิ่มข้อสอบเอง -->
+    <div class="card card-custom p-4">
+      <h5 class="fw-bold text-info mb-3">➕ เพิ่มคำถามของคุณเอง</h5>
+      <form id="add-q-form" onsubmit="addCustomQuestion(event)">
+        <div class="mb-2">
+          <input type="text" id="new-q" class="form-control bg-dark text-light border-secondary" placeholder="คำถาม" required>
+        </div>
+        <div class="row g-2 mb-2">
+          <div class="col-6"><input type="text" id="opt-0" class="form-control bg-dark text-light border-secondary" placeholder="ตัวเลือกที่ 1" required></div>
+          <div class="col-6"><input type="text" id="opt-1" class="form-control bg-dark text-light border-secondary" placeholder="ตัวเลือกที่ 2" required></div>
+          <div class="col-6"><input type="text" id="opt-2" class="form-control bg-dark text-light border-secondary" placeholder="ตัวเลือกที่ 3" required></div>
+          <div class="col-6"><input type="text" id="opt-3" class="form-control bg-dark text-light border-secondary" placeholder="ตัวเลือกที่ 4" required></div>
+        </div>
+        <div class="mb-2">
+          <select id="correct-opt" class="form-select bg-dark text-light border-secondary">
+            <option value="0">ข้อ 1 เป็นข้อที่ถูกต้อง</option>
+            <option value="1">ข้อ 2 เป็นข้อที่ถูกต้อง</option>
+            <option value="2">ข้อ 3 เป็นข้อที่ถูกต้อง</option>
+            <option value="3">ข้อ 4 เป็นข้อที่ถูกต้อง</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <textarea id="new-exp" class="form-control bg-dark text-light border-secondary" placeholder="คำอธิบายเพิ่มเติมเมื่อเฉลย" rows="2" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-outline-info w-100">บันทึกข้อสอบลงเครื่อง</button>
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+    // ลงทะเบียน Service Worker สำหรับ PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw_สุปรียา2.js')
+        .then(() => console.log('Service Worker Registered'))
+        .catch(err => console.log('SW Registration Failed:', err));
+    }
+
+    // คลังคำถามหลัก 15 ข้อ
+    const defaultQuestions = [
+      { q: "ดาวเคราะห์ดวงใดในระบบสุริยะมีอุณหภูมิพื้นผิวสูงที่สุด?", opts: ["ดาวพุธ", "ดาวศุกร์", "ดาวอังคาร", "ดาวพฤหัสบดี"], ans: 1, exp: "ดาวศุกร์ร้อนที่สุดเพราะมีชั้นบรรยากาศหนาแน่นด้วยคาร์บอนไดออกไซด์ เกิดสภาวะเรือนกระจกแบบกู้นไม่ได้" },
+      { q: "ปีแสง (Light-year) เป็นหน่วยวัดของอะไร?", opts: ["เวลา", "ความเร็ว", "ระยะทาง", "ความสว่าง"], ans: 2, exp: "ปีแสงคือหน่วยวัดระยะทางที่แสงเดินทางในอวกาศเป็นเวลา 1 ปี" },
+      { q: "ศูนย์กลางของระบบสุริยะคืออะไร?", opts: ["โลก", "ดวงอาทิตย์", "หลุมดำ", "ทางช้างเผือก"], ans: 1, exp: "ดวงอาทิตย์เป็นดาวฤกษ์ศูนย์กลางที่มีมวลคิดเป็น 99.8% ของระบบสุริยะ" },
+      { q: "ดาวเคราะห์ดวงใดได้ชื่อว่าเป็น 'ดาวเคราะห์สีแดง'?", opts: ["ดาวเสาร์", "ดาวพุธ", "ดาวอังคาร", "ดาวเนปจูน"], ans: 2, exp: "ดาวอังคารมีสีแดงเนื่องจากพื้นผิวเต็มไปด้วยไอรอนออกไซด์ (สนิมเหล็ก)" },
+      { q: "วัตถุอวกาศใดที่มีแรงโน้มถ่วงสูงมากจนแม้แต่แสงก็หนีออกมาไม่ได้?", opts: ["ดาวนิวตรอน", "ดาวแคระขาว", "เนบิวลา", "หลุมดำ"], ans: 3, exp: "หลุมดำมีความหนาแน่นและแรงโน้มถ่วงสูงมากจนความเร็วหลุดพ้นสูงกว่าความเร็วแสง" },
+      { q: "กาแล็กซีที่ระบบสุริยะของเราสังกัดอยู่มีชื่อว่าอะไร?", opts: ["แอนดรอเมดา", "ทางช้างเผือก", "แมกเจลแลน", "ซอมเบรโร"], ans: 1, exp: "ระบบสุริยะของเราอยู่ในกาแล็กซีทางช้างเผือก (Milky Way Galaxy)" },
+      { q: "ดาวเคราะห์ดวงใดใหญ่ที่สุดในระบบสุริยะ?", opts: ["ดาวเสาร์", "ดาวพฤหัสบดี", "ดาวยูเรนัส", "ดาวเนปจูน"], ans: 1, exp: "ดาวพฤหัสบดีเป็นดาวเคราะห์แก๊สยักษ์ที่มีขนาดใหญ่ที่สุดในระบบสุริยะ" },
+      { q: "ปรากฏการณ์ใดเกิดจากดวงจันทร์บดบังดวงอาทิตย์?", opts: ["จันทรุปราคา", "สุริยุปราคา", "ดาวตก", "ออโรรา"], ans: 1, exp: "สุริยุปราคาเกิดขึ้นเมื่อดวงจันทร์เคลื่อนมาอยู่ระหว่างโลกกับดวงอาทิตย์ในแนวเดียวกัน" },
+      { q: "ดาวเคราะห์ดวงใดมีวงแหวนที่เด่นชัดและสวยงามที่สุด?", opts: ["ดาวพฤหัสบดี", "ดาวเสาร์", "ดาวยูเรนัส", "ดาวเนปจูน"], ans: 1, exp: "ดาวเสาร์มีระบบวงแหวนขนาดใหญ่ที่ทำจากก้อนน้ำแข็งและหิน" },
+      { q: "ดาวตกหรือผีพุ่งใต้เกิดจากอะไร?", opts: ["ดาวฤกษ์ที่หมดอายุขัย", "เศษวัตถุเผาไหม้ในชั้นบรรยากาศโลก", "แสงจากยานอวกาศ", "ระเบิดซูเปอร์โนวา"], ans: 1, exp: "เกิดจากอุกกาบาตหรือเศษฝุ่นอวกาศเสียดสีกับชั้นบรรยากาศโลกจนเกิดการเผาไหม้เป็นแสงสว่าง" },
+      { q: "ยานอวกาศลำแรกที่พาคนไปลงจอดบนดวงจันทร์คือยานใด?", opts: ["อพอลโล 11", "สปุตนิค 1", "วอยเอเจอร์ 1", "อาร์เทมิส 1"], ans: 0, exp: "อพอลโล 11 ส่งมนุษย์ลงแตะพื้นผิวดวงจันทร์สำเร็จเป็นครั้งแรกในปี ค.ศ. 1969" },
+      { q: "ดวงจันทร์ที่เป็นบริวารของดาวพฤหัสบดีที่มีมหาสมุทรใต้น้ำแข็งคือดวงใด?", opts: ["ไอโอ", "ยูโรปา", "กานีมีด", "คัลลิสโต"], ans: 1, exp: "ยูโรปามีเปลือกน้ำแข็งหนาซึ่งนักวิทยาศาสตร์เชื่อว่ามีมหาสมุทรน้ำเหลวอยู่ข้างใต้" },
+      { q: "ดาวแท้จริงที่มีแสงสว่างในตัวเองเรียกว่าอะไร?", opts: ["ดาวเคราะห์", "ดาวฤกษ์", "ดาวหาง", "ดาวเคราะห์แคระ"], ans: 1, exp: "ดาวฤกษ์คือดาวที่มีปฏิกิริยานิวเคลียร์ฟิวชันในตัวเองจึงสร้างแสงและความร้อนได้" },
+      { q: "แรงที่ยึดรั้งดาวเคราะห์ให้โคจรรอบดวงอาทิตย์คือแรงอะไร?", opts: ["แรงแม่เหล็ก", "แรงโน้มถ่วง", "แรงนิวเคลียร์", "แรงแรงเหวี่ยง"], ans: 1, exp: "แรงโน้มถ่วงระหว่างมวลของดวงอาทิตย์ยึดเหนี่ยวให้ดาวเคราะห์โคจรรอบๆ" },
+      { q: "หน่วยวัดระยะทางดาราศาสตร์ AU (Astronomical Unit) มีค่าเท่ากับระยะทางใด?", opts: ["โลก ถึง ดวงจันทร์", "โลก ถึง ดวงอาทิตย์", "ดวงอาทิตย์ ถึง ดาวพุธ", "ดวงอาทิตย์ ถึง ดาวพฤหัสบดี"], ans: 1, exp: "1 AU คือระยะทางเฉลี่ยระหว่างโลกกับดวงอาทิตย์ (ประมาณ 149.6 ล้านกิโลเมตร)" }
+    ];
+
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let userAnswers = [];
+
+    function getStoredQuestions() {
+      const custom = JSON.parse(localStorage.getItem('custom_q_สุปรียา2') || '[]');
+      return [...defaultQuestions, ...custom];
+    }
+
+    function startQuiz() {
+      const allQ = getStoredQuestions();
+      // สุ่มคำถามและเลือกมา 15 ข้อ
+      currentQuestions = [...allQ].sort(() => 0.5 - Math.random()).slice(0, 15);
+      currentIndex = 0;
+      score = 0;
+      userAnswers = [];
+
+      document.getElementById('learning-section').classList.add('d-none');
+      document.getElementById('result-section').classList.add('d-none');
+      document.getElementById('quiz-section').classList.remove('d-none');
+      
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = currentQuestions[currentIndex];
+      document.getElementById('question-number').innerText = `ข้อที่ ${currentIndex + 1}/${currentQuestions.length}`;
+      document.getElementById('score-count').innerText = `คะแนน: ${score}`;
+      document.getElementById('question-text').innerText = q.q;
+
+      const optsBox = document.getElementById('options-container');
+      optsBox.innerHTML = '';
+
+      q.opts.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn option-btn py-2 px-3 fw-semibold';
+        btn.innerText = `${idx + 1}. ${opt}`;
+        btn.onclick = () => handleAnswer(idx);
+        optsBox.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selectedIndex) {
+      const q = currentQuestions[currentIndex];
+      const isCorrect = selectedIndex === q.ans;
+
+      if (isCorrect) score++;
+
+      userAnswers.push({
+        qText: q.q,
+        userAns: selectedIndex,
+        correctAns: q.ans,
+        opts: q.opts,
+        exp: q.exp,
+        isCorrect: isCorrect
+      });
+
+      currentIndex++;
+      if (currentIndex < currentQuestions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById('quiz-section').classList.add('d-none');
+      document.getElementById('result-section').classList.remove('d-none');
+      
+      document.getElementById('final-score').innerText = `${score} / ${currentQuestions.length}`;
+
+      const reviewBox = document.getElementById('review-container');
+      reviewBox.innerHTML = '';
+
+      userAnswers.forEach((item, i) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'mb-3 pb-3 border-bottom border-secondary';
+
+        const statusBadge = item.isCorrect 
+          ? `<span class="badge bg-success">ตอบถูก</span>` 
+          : `<span class="badge bg-danger">ตอบผิด</span>`;
+
+        itemDiv.innerHTML = `
+          <div class="fw-bold mb-1">${i + 1}. ${item.qText} ${statusBadge}</div>
+          <div class="small text-secondary">คำตอบของคุณ: <span class="${item.isCorrect ? 'text-success' : 'text-danger'}">${item.opts[item.userAns]}</span></div>
+          ${!item.isCorrect ? `<div class="small text-success">คำตอบที่ถูกต้อง: ${item.opts[item.correctAns]}</div>` : ''}
+          <div class="explanation-box small">
+            <strong>💡 เหตุผล/คำอธิบาย:</strong> ${item.exp}
+          </div>
+        `;
+        reviewBox.appendChild(itemDiv);
+      });
+    }
+
+    function addCustomQuestion(e) {
+      e.preventDefault();
+      const q = document.getElementById('new-q').value;
+      const opts = [
+        document.getElementById('opt-0').value,
+        document.getElementById('opt-1').value,
+        document.getElementById('opt-2').value,
+        document.getElementById('opt-3').value
+      ];
+      const ans = parseInt(document.getElementById('correct-opt').value);
+      const exp = document.getElementById('new-exp').value;
+
+      const newObj = { q, opts, ans, exp };
+
+      const existing = JSON.parse(localStorage.getItem('custom_q_สุปรียา2') || '[]');
+      existing.push(newObj);
+      localStorage.setItem('custom_q_สุปรียา2', JSON.stringify(existing));
+
+      alert('บันทึกข้อสอบเรียบร้อยแล้ว!');
+      document.getElementById('add-q-form').reset();
+    }
+  </script>
+</body>
+</html>
